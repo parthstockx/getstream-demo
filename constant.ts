@@ -16,4 +16,4 @@ const getUser = (user_id: string) => {
   throw new Error("User not found");
 };
 
-export { getUser };
+export { getUser, buyer_user, seller_user };

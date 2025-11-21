@@ -1,9 +1,4 @@
-import type {
-  User,
-  ChannelSort,
-  ChannelFilters,
-  ChannelOptions,
-} from "stream-chat";
+import type { ChannelSort, ChannelFilters, ChannelOptions } from "stream-chat";
 import {
   useCreateChatClient,
   Chat,
@@ -15,9 +10,9 @@ import {
   Thread,
   Window,
 } from "stream-chat-react";
+import { getUser } from "../../constant";
 
 import "stream-chat-react/dist/css/v2/index.css";
-import { getUser } from "../../constant";
 
 const sort: ChannelSort = { last_message_at: -1 };
 
@@ -43,17 +38,19 @@ const App = ({ token, user }: { token: string; user: string }) => {
     return <div>Setting up client & connection...</div>;
 
   return (
-    <Chat client={client}>
-      <ChannelList filters={filters} sort={sort} options={options} />
-      <Channel>
-        <Window>
-          <ChannelHeader />
-          <MessageList />
-          <MessageInput />
-        </Window>
-        <Thread />
-      </Channel>
-    </Chat>
+    <div id="root">
+      <Chat client={client}>
+        <ChannelList filters={filters} sort={sort} options={options} />
+        <Channel>
+          <Window>
+            <ChannelHeader />
+            <MessageList />
+            <MessageInput />
+          </Window>
+          <Thread />
+        </Channel>
+      </Chat>
+    </div>
   );
 };
 
