@@ -94,7 +94,11 @@ export default async function handler(
     //   // Handle custom command logic
     // }
 
-    // Return success response (200-299 status codes)
+    // body.message.text = "Hello, world! from our api endpoint";
+
+    // // Return success response (200-299 status codes)
+    // res.status(200).json(body);
+
     res.status(200).json({
       message: "Webhook received and processed",
       webhookId,
