@@ -62,13 +62,13 @@ export default async function handler(
     const body = JSON.parse(rawBody);
 
     // Log webhook information
-    console.log("Webhook received:", {
-      webhookId,
-      attempt: webhookAttempt,
-      apiKey,
-      type: body.type,
-      event: body.type || "unknown",
-    });
+    // console.log("Webhook received:", {
+    //   webhookId,
+    //   attempt: webhookAttempt,
+    //   apiKey,
+    //   type: body.type,
+    //   event: body.type || "unknown",
+    // });
 
     // // Handle different webhook types
     // // Push webhook - contains event data
@@ -83,7 +83,7 @@ export default async function handler(
 
     // Before Message Send webhook - can modify message
     if (body.message) {
-      console.log("Message webhook:", body.message);
+      // console.log("Message webhook:", body.message);
       // Return modified message if needed
       // return res.status(200).json({ message: modifiedMessage });
     }
@@ -98,6 +98,8 @@ export default async function handler(
 
     // // Return success response (200-299 status codes)
     // res.status(200).json(body);
+
+    // await new Promise((resolve) => setTimeout(resolve, 20000));
 
     res.status(200).json({
       message: "Webhook received and processed",
