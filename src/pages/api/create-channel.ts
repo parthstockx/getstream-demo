@@ -1,6 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getGetStreamInstance } from "../../../library/get-stream";
-import { buyer_user, seller_user } from "../../../constant";
+import {
+  buyer_user,
+  moderator_user,
+  seller_user,
+  seller_user_3,
+} from "../../../constant";
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,8 +18,8 @@ export default async function handler(
   const serverClient = getGetStreamInstance();
 
   const channel = serverClient.channel("messaging", {
-    members: [buyer_user.id, seller_user.id],
-    created_by: buyer_user,
+    members: ["buyer_3", "seller_3"],
+    created_by: seller_user_3,
   });
 
   // enabled pending messages for a channel
@@ -24,11 +29,13 @@ export default async function handler(
 
   await channel.create();
 
-  await channel.updatePartial({
-    set: {
-      name: channelName,
-    },
-  });
+  // await channel.updatePartial({
+  //   set: {
+  //     name: channelName,
+  //   },
+  // });
+
+  // await channel.addModerators([moderator_user.id]);
 
   res.status(200).json({ message: "Channel created successfully" });
 }
