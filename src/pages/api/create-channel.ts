@@ -18,16 +18,14 @@ export default async function handler(
   // ]);
 
   const channel = serverClient.channel("messaging", {
-    members: ["buyer_test", "seller_test"],
+    members: ["buyer_3", "seller_3", "buyer_test", "seller_test"],
     created_by: buyer_user_test,
   });
 
-  console.log({ channel });
-
   // enabled pending messages for a channel
-  // await serverClient.updateChannelType("messaging", {
-  //   mark_messages_pending: false,
-  // });
+  await serverClient.updateChannelType("messaging", {
+    mark_messages_pending: true,
+  });
 
   await channel.create();
 
@@ -37,7 +35,5 @@ export default async function handler(
   //   },
   // });
 
-  // await channel.addModerators([moderator_user.id]);
-
-  res.status(200).json({ message: "Channel created successfully" });
+  res.status(200).json({ message: "Channel created / updated successfully" });
 }
