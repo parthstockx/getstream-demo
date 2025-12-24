@@ -1,11 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getGetStreamInstance } from "../../../library/get-stream";
-import {
-  buyer_user,
-  moderator_user,
-  seller_user,
-  seller_user_3,
-} from "../../../constant";
+import { buyer_user_test, seller_user_test } from "../../../constant";
 
 export default async function handler(
   req: NextApiRequest,
@@ -17,10 +12,17 @@ export default async function handler(
 
   const serverClient = getGetStreamInstance();
 
+  // const createOrUpdateUsers = await serverClient.upsertUsers([
+  //   test_buyer,
+  //   test_seller,
+  // ]);
+
   const channel = serverClient.channel("messaging", {
-    members: ["buyer_3", "seller_3"],
-    created_by: seller_user_3,
+    members: ["buyer_test", "seller_test"],
+    created_by: buyer_user_test,
   });
+
+  console.log({ channel });
 
   // enabled pending messages for a channel
   // await serverClient.updateChannelType("messaging", {

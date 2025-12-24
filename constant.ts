@@ -40,6 +40,18 @@ const seller_user_3 = {
   image: `https://getstream.io/random_png/?name=Seller-3`,
 };
 
+const buyer_user_test = {
+  id: "buyer_test",
+  name: "Buyer",
+  image: `https://getstream.io/random_png/?name=Buyer`,
+};
+
+const seller_user_test = {
+  id: "seller_test",
+  name: "Seller",
+  image: `https://getstream.io/random_png/?name=Seller`,
+};
+
 const getUser = (user_id: string) => {
   if (user_id === buyer_user.id) return buyer_user;
   if (user_id === seller_user.id) return seller_user;
@@ -48,6 +60,8 @@ const getUser = (user_id: string) => {
   if (user_id === moderator_user.id) return moderator_user;
   if (user_id === buyer_user_3.id) return buyer_user_3;
   if (user_id === seller_user_3.id) return seller_user_3;
+  if (user_id === buyer_user_test.id) return buyer_user_test;
+  if (user_id === seller_user_test.id) return seller_user_test;
   throw new Error("User not found");
 };
 
@@ -60,4 +74,6 @@ export {
   moderator_user,
   buyer_user_3,
   seller_user_3,
+  buyer_user_test,
+  seller_user_test,
 };
