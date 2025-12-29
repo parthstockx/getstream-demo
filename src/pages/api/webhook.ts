@@ -2,7 +2,8 @@
 // Reference: https://getstream.io/chat/docs/javascript/webhooks_overview/
 
 import { NextApiRequest, NextApiResponse } from "next";
-import { getGetStreamInstance } from "../../../library/get-stream";
+import { getRawBody } from "../../../utils/get-raw-body";
+import { validateWebhook } from "../../../utils/validate-webhook";
 
 // Disable body parsing to get raw body for signature verification
 export const config = {
@@ -10,21 +11,6 @@ export const config = {
     bodyParser: false,
   },
 };
-
-async function getRawBody(req: NextApiRequest): Promise<string> {
-  return new Promise((resolve, reject) => {
-    let data = "";
-    req.on("data", (chunk) => {
-      data += chunk;
-    });
-    req.on("end", () => {
-      resolve(data);
-    });
-    req.on("error", (err) => {
-      reject(err);
-    });
-  });
-}
 
 export default async function handler(
   req: NextApiRequest,
@@ -36,27 +22,11 @@ export default async function handler(
   }
 
   try {
-    // Get raw body for signature verification
-    const rawBody = await getRawBody(req);
+    await validateWebhook(req);
 
-    // Get signature from headers
-    const signature = req.headers["x-signature"] as string;
     const webhookId = req.headers["x-webhook-id"] as string;
-    const webhookAttempt = req.headers["x-webhook-attempt"] as string;
-    const apiKey = req.headers["x-api-key"] as string;
 
-    // Verify signature
-    const serverClient = getGetStreamInstance();
-    const isValid = serverClient.verifyWebhook(rawBody, signature);
-
-    if (!isValid) {
-      console.error("Invalid webhook signature", {
-        webhookId,
-        attempt: webhookAttempt,
-        apiKey,
-      });
-      return res.status(401).json({ error: "Invalid signature" });
-    }
+    const rawBody = await getRawBody(req);
 
     // Parse the JSON body
     const body = JSON.parse(rawBody);
@@ -106,11 +76,7 @@ export default async function handler(
       webhookId,
     });
   } catch (error) {
-    console.error("Webhook processing error:", error);
-    // Return 500 to trigger retry, or 200 if you don't want retries
-    res.status(500).json({
-      error: "Internal server error",
-      message: error instanceof Error ? error.message : "Unknown error",
-    });
+    console.error("Error processing webhook:", error);
+    return res.status(500).json({ error: "Internal server error" });
   }
 }

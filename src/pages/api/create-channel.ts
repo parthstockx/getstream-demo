@@ -18,13 +18,13 @@ export default async function handler(
   // ]);
 
   const channel = serverClient.channel("messaging", {
-    members: ["buyer_3", "seller_3", "buyer_test", "seller_test"],
+    members: ["buyer_test", "seller_test"],
     created_by: buyer_user_test,
   });
 
   // enabled pending messages for a channel
   await serverClient.updateChannelType("messaging", {
-    mark_messages_pending: true,
+    mark_messages_pending: false,
   });
 
   await channel.create();
