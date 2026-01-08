@@ -52,6 +52,12 @@ const seller_user_test = {
   image: `https://getstream.io/random_png/?name=Seller`,
 };
 
+const test_user = {
+  id: "test-user",
+  name: "Test User",
+  image: "https://getstream.io/random_png/?name=Test-User",
+};
+
 const getUser = (user_id: string) => {
   if (user_id === buyer_user.id) return buyer_user;
   if (user_id === seller_user.id) return seller_user;
@@ -62,6 +68,7 @@ const getUser = (user_id: string) => {
   if (user_id === seller_user_3.id) return seller_user_3;
   if (user_id === buyer_user_test.id) return buyer_user_test;
   if (user_id === seller_user_test.id) return seller_user_test;
+  if (user_id === test_user.id) return test_user;
   throw new Error("User not found");
 };
 
@@ -76,4 +83,5 @@ export {
   seller_user_3,
   buyer_user_test,
   seller_user_test,
+  test_user,
 };

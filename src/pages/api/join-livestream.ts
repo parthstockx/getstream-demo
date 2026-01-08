@@ -1,0 +1,29 @@
+import { NextApiRequest, NextApiResponse } from "next";
+import { getGetStreamInstance } from "../../../library/get-stream";
+import { test_user } from "../../../constant";
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<{ message: string }>
+) {
+  const { query } = req;
+
+  const channelName = query.name as string;
+
+  const serverClient = getGetStreamInstance();
+
+  const channel = serverClient.channel(
+    "livestream",
+    "test-livestream-channel",
+    {
+      name: channelName,
+      created_by: test_user,
+    }
+  );
+
+  console.log({ channel });
+
+  await channel.create();
+
+  res.status(200).json({ message: "livestream channel created successfully" });
+}

@@ -24,8 +24,8 @@ const App = ({ token, user }: { token: string; user: string }) => {
   const userData = getUser(user);
 
   const filters: ChannelFilters = {
-    type: "messaging",
-    members: { $in: [userData.id] },
+    type: "livestream",
+    // members: { $in: [userData.id] },
   };
 
   const client = useCreateChatClient({
