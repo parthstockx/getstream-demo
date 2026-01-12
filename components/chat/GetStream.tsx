@@ -23,9 +23,21 @@ const options: ChannelOptions = {
 const App = ({ token, user }: { token: string; user: string }) => {
   const userData = getUser(user);
 
-  const filters: ChannelFilters = {
-    type: "livestream",
-    // members: { $in: [userData.id] },
+  const filter1: ChannelFilters = {
+    type: "messaging",
+    members: { $in: [userData.id] },
+  };
+
+  const filter2: ChannelFilters = {
+    $or: [
+      {
+        type: "messaging",
+        members: { $in: [userData.id] },
+      },
+      {
+        type: "livestream",
+      },
+    ],
   };
 
   const client = useCreateChatClient({
@@ -40,7 +52,7 @@ const App = ({ token, user }: { token: string; user: string }) => {
   return (
     <div id="root">
       <Chat client={client}>
-        <ChannelList filters={filters} sort={sort} options={options} />
+        <ChannelList filters={filter2} sort={sort} options={options} />
         <Channel>
           <Window>
             <ChannelHeader />
