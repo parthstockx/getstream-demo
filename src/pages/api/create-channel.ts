@@ -1,25 +1,19 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getGetStreamInstance } from "../../../library/get-stream";
-import { buyer_user_test, seller_user_test } from "../../../constant";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<{ message: string }>
 ) {
-  const { query } = req;
-
-  const channelName = query.name as string;
-
   const serverClient = getGetStreamInstance();
-
-  // const createOrUpdateUsers = await serverClient.upsertUsers([
-  //   test_buyer,
-  //   test_seller,
-  // ]);
 
   const channel = serverClient.channel("messaging", {
     members: ["buyer_test", "seller_test"],
-    created_by: buyer_user_test,
+    created_by: {
+      id: "admin",
+      name: "Admin",
+      image: "https://getstream.io/random_png/?name=Admin",
+    },
   });
 
   // enabled pending messages for a channel

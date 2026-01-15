@@ -10,7 +10,6 @@ import {
   Thread,
   Window,
 } from "stream-chat-react";
-import { getUser } from "../../constant";
 
 import "stream-chat-react/dist/css/v2/index.css";
 
@@ -21,14 +20,18 @@ const options: ChannelOptions = {
 };
 
 const App = ({ token, user }: { token: string; user: string }) => {
-  const userData = getUser(user);
+  const userData = {
+    id: user,
+    name: user,
+    image: `https://getstream.io/random_png/?name=${user}`,
+  };
 
-  const filter1: ChannelFilters = {
+  const messagingFilter: ChannelFilters = {
     type: "messaging",
     members: { $in: [userData.id] },
   };
 
-  const filter2: ChannelFilters = {
+  const messagingAndLivestreamFilter: ChannelFilters = {
     $or: [
       {
         type: "messaging",
@@ -52,7 +55,7 @@ const App = ({ token, user }: { token: string; user: string }) => {
   return (
     <div id="root">
       <Chat client={client}>
-        <ChannelList filters={filter2} sort={sort} options={options} />
+        <ChannelList filters={messagingFilter} sort={sort} options={options} />
         <Channel>
           <Window>
             <ChannelHeader />

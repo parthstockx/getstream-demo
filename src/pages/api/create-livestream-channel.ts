@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getGetStreamInstance } from "../../../library/get-stream";
-import { test_user } from "../../../constant";
 
 export default async function handler(
   req: NextApiRequest,
@@ -17,7 +16,11 @@ export default async function handler(
     "test-livestream-channel",
     {
       name: channelName,
-      created_by: test_user,
+      created_by: {
+        id: "admin",
+        name: "Admin",
+        image: "https://getstream.io/random_png/?name=Admin",
+      },
     }
   );
 
