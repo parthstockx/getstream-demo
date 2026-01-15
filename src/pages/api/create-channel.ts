@@ -1,33 +1,90 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getGetStreamInstance } from "../../../library/get-stream";
 
+type CreateChannelRequest =
+  | {
+      channelKind: "LIVESTREAM";
+      name: string;
+      channelId: string;
+      createdBy: string;
+      metadata?: Record<string, unknown>;
+    }
+  | {
+      channelKind: "DIRECT_MESSAGE";
+      members: string[]; // required
+      createdBy: string;
+      metadata?: Record<string, unknown>;
+    };
+
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<{ message: string }>
+  res: NextApiResponse
 ) {
-  const serverClient = getGetStreamInstance();
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
 
-  const channel = serverClient.channel("messaging", {
-    members: ["buyer_test", "seller_test"],
-    created_by: {
-      id: "admin",
-      name: "Admin",
-      image: "https://getstream.io/random_png/?name=Admin",
-    },
-  });
+  try {
+    const body = req.body as CreateChannelRequest;
+    const { channelKind, createdBy, metadata = {}, name } = body;
 
-  // enabled pending messages for a channel
-  await serverClient.updateChannelType("messaging", {
-    mark_messages_pending: false,
-  });
+    if (channelKind === "LIVESTREAM") {
+      const { channelId } = body;
+      if (!channelId) {
+        return res
+          .status(400)
+          .json({ error: "channelId is required for livestream" });
+      }
 
-  await channel.create();
+      const serverClient = getGetStreamInstance();
 
-  // await channel.updatePartial({
-  //   set: {
-  //     name: channelName,
-  //   },
-  // });
+      // Create livestream with a specific channel ID
+      const channel = serverClient.channel("livestream", channelId, {
+        created_by_id: createdBy,
+        name: name as string,
+        ...metadata,
+      });
 
-  res.status(200).json({ message: "Channel created / updated successfully" });
+      await channel.create();
+
+      return res.status(201).json({
+        success: true,
+        type: "livestream",
+        channelId,
+      });
+    }
+
+    if (channelKind === "DIRECT_MESSAGE") {
+      const { members } = body;
+      if (!Array.isArray(members) || members.length < 2) {
+        return res.status(400).json({
+          error: "Direct messages require at least 2 member IDs",
+        });
+      }
+
+      const serverClient = getGetStreamInstance();
+
+      // Create a DM channel *without a channelId*, so Stream generates one
+      const channel = serverClient.channel("messaging", {
+        members,
+        created_by_id: createdBy,
+        ...metadata,
+      });
+
+      await channel.create();
+
+      return res.status(201).json({
+        success: true,
+        type: "direct_message",
+        members,
+      });
+    }
+
+    return res.status(400).json({ error: "Invalid channelKind" });
+  } catch (error) {
+    return res.status(500).json({
+      error: "Server error",
+      details: error instanceof Error ? error.message : error,
+    });
+  }
 }
