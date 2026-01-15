@@ -24,8 +24,6 @@ export default async function handler(
     }
   );
 
-  console.log({ channel });
-
   await channel.create();
 
   res.status(200).json({ message: "livestream channel created successfully" });

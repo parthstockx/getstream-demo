@@ -11,11 +11,9 @@ export default async function handler(
 
   const serverClient = getGetStreamInstance();
 
-  const updateResponse = await serverClient.upsertUser({
+  await serverClient.upsertUser({
     id: user_id,
   });
-
-  console.log({ updateResponse }, "user created / updated");
 
   const token = serverClient.createToken(user_id);
 
