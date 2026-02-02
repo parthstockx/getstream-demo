@@ -12,6 +12,7 @@ type CreateChannelRequest =
   | {
       channelKind: "DIRECT_MESSAGE";
       members: string[]; // required
+      name?:null;
       createdBy: string;
       metadata?: Record<string, unknown>;
     };
@@ -70,6 +71,8 @@ export default async function handler(
         created_by_id: createdBy,
         ...metadata,
       });
+
+      
 
       await channel.create();
 

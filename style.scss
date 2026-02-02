@@ -1,0 +1,69 @@
+@layer stream, stream-overrides;
+@import "stream-chat-react/dist/scss/v2/index.scss" layer(stream);
+
+@layer stream-overrides {
+    .str-chat {
+          // --str-chat__dialog-contents-background-color:#21692e;
+
+      --str-chat__reply-arrow-button-color: #64cc58;
+      --str-chat__message-bubble-background-color: #dadbda;
+      --str-chat__own-message-bubble-background-color: #4a8e42;
+      --str-chat__own-message-bubble-border-radius: 50%;
+      --str-chat__primary-color: #0b0b0b;
+      --str-chat__active-primary-color: #004d40;
+      --str-chat__surface-color: #f5f5f5;
+      --str-chat__secondary-surface-color: #fafafa;
+      --str-chat__primary-surface-color: #e0f2f1;
+      --str-chat__primary-surface-color-low-emphasis: #edf7f7;
+      --str-chat__avatar-background-color: #21692e;
+
+     
+      --str-chat__send-arrow-button-size: 48px;
+      --str-chat__send-arrow-button-background-color: #21692e;
+
+    }
+    // .str-chat__message-bubble{
+    //   // border-radius: var(--str-chat__own-message-bubble-border-radius, );
+    // }
+    // str-chat__message-text
+    // .str-chat__message-text-inner {
+    //   background-color: var(--str-chat__message-text-inner-background-color, #edeeed);
+
+    
+    // }
+
+    // .str-chat__quoted-message-preview {
+    //   background-color: var(--str-chat__quoted-message-preview-background-color, #edeeed);
+    // }
+
+    
+    .str-chat__send-arrow-button {
+      width: var(--str-chat__send-arrow-button-size, 30px);
+      height: var(--str-chat__send-arrow-button-size, 30px);
+      min-width: var(--str-chat__send-arrow-button-size, 30px);
+      border-radius: 50%;
+      background-color: var(--str-chat__send-arrow-button-background-color, #21692e);
+      border: none;
+
+      svg,
+      .str-send-button-icon {
+        width: 15px !important;
+        height: 30px !important;
+        
+      }
+    }
+  }
+
+
+/* Force remove background from ALL wrapper elements */
+/* Remove ALL backgrounds and padding from parent containers */
+/* Just style the replied messages to look like two connected bubbles */
+
+/* For YOUR messages (right side, green) */
+
+
+/* The quoted bubble (top part) */
+/* Override the CSS variable for your messages */
+/* Make the message bubble wrapper transparent */
+
+/* 1. Hide the default separate Stream quote bubble */

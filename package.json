@@ -12,6 +12,8 @@
     "next": "16.0.3",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "react-icons": "^5.5.0",
+    "sass": "^1.97.3",
     "stream-chat": "^9.25.0",
     "stream-chat-react": "^13.12.0"
   },
