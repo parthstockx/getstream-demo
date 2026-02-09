@@ -6,8 +6,9 @@ export default function Home({ token }: { token: string }) {
   const router = useRouter();
 
   const user = router.query.user as string;
+  const mode = (router.query.mode as "messaging" | "livestream") || "messaging";
 
-  return <GetStream token={token} user={user} />;
+  return <GetStream token={token} user={user} mode={mode} />;
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {

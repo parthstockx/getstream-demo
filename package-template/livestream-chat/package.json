@@ -1,0 +1,39 @@
+{
+  "name": "@your-scope/livestream-chat",
+  "version": "1.0.0",
+  "description": "Full GetStream livestream chat: client, channel, and UI. No direct Stream API usage required.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./styles.css": "./styles.css"
+  },
+  "files": [
+    "dist",
+    "styles.css"
+  ],
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "stream-chat": ">=9.0.0",
+    "stream-chat-react": ">=13.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "stream-chat": "^9.25.0",
+    "stream-chat-react": "^13.12.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --external react --external react-dom --external stream-chat --external stream-chat-react",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch --external react --external react-dom --external stream-chat --external stream-chat-react"
+  }
+}
